@@ -61,6 +61,30 @@
   --font-display:"Space Grotesk",system-ui,sans-serif;
   --font-body:"Inter",system-ui,sans-serif;
   --font-mono:"JetBrains Mono",monospace;
+
+  /* --------------------------------------------------------------------
+     Bridge aliases — some components (e.g. Hero.jsx) are written with
+     Tailwind utility classes that reference this alternate variable
+     naming. Mapping them here keeps every component on one palette
+     without having to rewrite those files.
+     -------------------------------------------------------------------- */
+  --color-paper:var(--void);
+  --color-paper-alt:var(--glass-fill-strong);
+  --color-border:var(--glass-border);
+  --color-ink:var(--ink);
+  --color-ink-soft:var(--ink-dim);
+  --color-slate:var(--ink-dim);
+  --color-teal:var(--aurora-cyan);
+  --color-gold:var(--aurora-amber);
+}
+
+/* Fallback font utilities for components using Tailwind arbitrary
+   class names that aren't registered in tailwind.config — safe no-op
+   if Tailwind already generates them. */
+.font-display{font-family:var(--font-display);}
+.font-mono-num{
+  font-family:var(--font-mono);
+  font-variant-numeric:tabular-nums;
 }
 
 /* --------------------------------------------------------------------------
@@ -381,25 +405,52 @@ nav{
 }
 
 .logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:2px;
+  position:relative;
+  white-space:nowrap;
   font-family:var(--font-display);
   font-size:22px;
   font-weight:700;
   color:var(--ink);
+  text-decoration:none;
 }
 
+/* .logo span wraps a WORD (e.g. "Academy"), not an icon —
+   style it as an accent text treatment, never a fixed box */
 .logo span{
-  display:flex;
+  display:inline !important;
+  width:auto !important;
+  height:auto !important;
+  flex:none !important;
+  position:static !important;
+  margin:0 !important;
+  padding:0 !important;
+  border-radius:0 !important;
+  background:linear-gradient(120deg,var(--aurora-violet),var(--aurora-cyan));
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:var(--aurora-cyan);
+  font-weight:700;
+}
+
+/* If a project ever needs a real icon badge next to the wordmark,
+   opt in explicitly with this class instead of the bare span: */
+.logo-icon{
+  display:inline-flex;
   align-items:center;
   justify-content:center;
+  flex:0 0 36px;
   width:36px;
   height:36px;
   border-radius:10px;
   background:linear-gradient(135deg,var(--aurora-violet),var(--aurora-cyan));
   color:#fff;
   font-weight:700;
+  line-height:1;
+  -webkit-text-fill-color:#fff;
 }
 
 .menu,
