@@ -383,7 +383,7 @@ nav,
   position:sticky;
   top:0;
   z-index:1000;
-  padding:16px 0 0;
+  padding:30px 0 0;
   background:transparent;
   box-shadow:none;
 }
@@ -507,7 +507,7 @@ nav{
    -------------------------------------------------------------------------- */
 .page-hero,
 .home-hero{
-  padding:var(--space-2xl) 0 var(--space-xl);
+  padding:60px 0 var(--space-xl);
   text-align:center;
   position:relative;
 }
