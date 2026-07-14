@@ -1,8 +1,14 @@
 /* ==========================================================================
-   AURORA CAMPUS — Liquid Glass Design System
+   AURORA CAMPUS — Liquid Glass Design System (Premium Edition)
    A premium glassmorphic UI for an academic institution.
    Signature: a slow-drifting aurora mesh behind frosted, iridescent-edged
-   glass panels — light literally "passing through" the interface.
+   glass panels — light literally "passing through" the interface, now with
+   deeper navy depth, a reflective sheen on every pane, drifting particles,
+   morphing blobs and a fuller premium component set.
+
+   Every selector from the original system is preserved so existing HTML
+   keeps working unmodified — this file deepens values and appends new,
+   purely additive sections rather than renaming or removing anything.
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
@@ -11,34 +17,42 @@
    1. TOKENS
    -------------------------------------------------------------------------- */
 :root{
-  /* surface */
-  --void:#05060f;
-  --void-2:#0a0c1e;
-  --void-3:#11142c;
+  /* surface — deepened toward true navy for more contrast behind glass */
+  --void:#04050f;
+  --void-2:#080a1e;
+  --void-3:#0d1130;
+  --navy-deep:#020310;
+  --royal-blue:#3b5bfd;
+  --royal-blue-dim:#2a3d9e;
 
   /* aurora accents */
   --aurora-violet:#7c5cff;
+  --aurora-violet-2:#9c7bff;
   --aurora-cyan:#22d3ee;
   --aurora-magenta:#ff5fa2;
-  --aurora-amber:#ffb020;
+  --aurora-amber:#ffc23d;
+  --aurora-gold:#f2c879;
 
   /* ink */
-  --ink:#f4f6ff;
-  --ink-dim:#aab2d6;
-  --ink-faint:#6b729a;
+  --ink:#f6f8ff;
+  --ink-dim:#aeb6db;
+  --ink-faint:#6d749c;
 
-  /* glass */
-  --glass-fill:rgba(255,255,255,.055);
-  --glass-fill-strong:rgba(255,255,255,.095);
-  --glass-border:rgba(255,255,255,.14);
-  --glass-border-strong:rgba(255,255,255,.32);
-  --glass-blur:18px;
+  /* glass — slightly richer fill + brighter rim for a "thicker" pane feel */
+  --glass-fill:rgba(255,255,255,.06);
+  --glass-fill-strong:rgba(255,255,255,.1);
+  --glass-fill-soft:rgba(255,255,255,.035);
+  --glass-border:rgba(255,255,255,.15);
+  --glass-border-strong:rgba(255,255,255,.34);
+  --glass-sheen:rgba(255,255,255,.22);
+  --glass-blur:20px;
 
   /* elevation */
-  --shadow-glass:0 8px 32px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
-  --shadow-glass-lg:0 24px 64px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.09);
-  --glow-violet:0 0 0 1px rgba(124,92,255,.35), 0 0 40px rgba(124,92,255,.25);
-  --glow-cyan:0 0 0 1px rgba(34,211,238,.35), 0 0 40px rgba(34,211,238,.2);
+  --shadow-glass:0 8px 32px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.09);
+  --shadow-glass-lg:0 28px 72px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.1);
+  --glow-violet:0 0 0 1px rgba(124,92,255,.38), 0 0 44px rgba(124,92,255,.28);
+  --glow-cyan:0 0 0 1px rgba(34,211,238,.38), 0 0 44px rgba(34,211,238,.22);
+  --glow-gold:0 0 0 1px rgba(242,200,121,.4), 0 0 40px rgba(242,200,121,.24);
 
   /* scale */
   --radius-sm:12px;
@@ -75,7 +89,7 @@
   --color-ink-soft:var(--ink-dim);
   --color-slate:var(--ink-dim);
   --color-teal:var(--aurora-cyan);
-  --color-gold:var(--aurora-amber);
+  --color-gold:var(--aurora-gold);
 }
 
 /* Fallback font utilities for components using Tailwind arbitrary
@@ -103,11 +117,14 @@ html{
 
 body{
   position:relative;
-  background:var(--void);
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(59,91,253,.16), transparent 60%),
+    var(--void);
   color:var(--ink);
   font-family:var(--font-body);
   font-size:16px;
   line-height:1.6;
+  letter-spacing:-.005em;
   overflow-x:hidden;
   min-height:100vh;
 }
@@ -153,7 +170,7 @@ body::after{
   transform:translateX(-50%);
   background:radial-gradient(circle,var(--aurora-magenta),transparent 70%);
   filter:blur(100px);
-  opacity:.28;
+  opacity:.24;
   pointer-events:none;
   animation:auroraDriftC 34s var(--ease-out) infinite alternate;
 }
@@ -202,7 +219,7 @@ img{max-width:100%;display:block;}
 h1,h2,h3,h4{
   font-family:var(--font-display);
   font-weight:700;
-  letter-spacing:-.02em;
+  letter-spacing:-.025em;
   color:var(--ink);
 }
 
@@ -218,7 +235,7 @@ h1,h2,h3,h4{
 }
 
 .bg-light{
-  background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+  background:linear-gradient(180deg,rgba(255,255,255,.025),transparent);
 }
 
 /* --------------------------------------------------------------------------
@@ -242,9 +259,30 @@ nav,
   position:relative;
   background:var(--glass-fill);
   border:1px solid var(--glass-border);
-  backdrop-filter:blur(var(--glass-blur)) saturate(140%);
-  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%);
+  backdrop-filter:blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(150%);
   box-shadow:var(--shadow-glass);
+}
+
+/* top reflection sheen — a soft light streak across the upper edge of every
+   pane, reinforcing the "sheet of glass catching light" read */
+.card::after,
+.course-card::after,
+.faculty-card::after,
+.blog-card::after,
+.curriculum-box::after,
+.policy-card::after,
+.cta::after,
+.admission-form::after,
+.contact-form::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:linear-gradient(180deg,var(--glass-sheen),transparent 40%);
+  opacity:.16;
+  pointer-events:none;
+  mix-blend-mode:overlay;
 }
 
 /* iridescent hairline edge — conic gradient masked to a 1px ring */
@@ -259,7 +297,7 @@ nav,
   inset:0;
   border-radius:inherit;
   padding:1px;
-  background:conic-gradient(from 180deg,var(--aurora-violet),var(--aurora-cyan),var(--aurora-magenta),var(--aurora-violet));
+  background:conic-gradient(from 180deg,var(--aurora-violet),var(--aurora-cyan),var(--aurora-magenta),var(--aurora-gold),var(--aurora-violet));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;
   mask-composite:exclude;
@@ -289,7 +327,7 @@ nav,
   padding:16px 34px;
   border:none;
   border-radius:var(--radius-full);
-  background:linear-gradient(135deg,var(--aurora-violet),#5b3df0);
+  background:linear-gradient(135deg,var(--aurora-violet),var(--royal-blue-dim));
   color:#fff;
   font-family:var(--font-body);
   font-weight:600;
@@ -305,15 +343,19 @@ nav,
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.5) 45%,transparent 70%);
+  background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.55) 45%,transparent 70%);
   transform:translateX(-120%);
   transition:transform .8s var(--ease-out);
   z-index:1;
 }
 
 .btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 0 0 1px rgba(124,92,255,.5),0 12px 40px rgba(124,92,255,.4);
+  transform:translateY(-3px) scale(1.015);
+  box-shadow:0 0 0 1px rgba(124,92,255,.5),0 14px 44px rgba(124,92,255,.42);
+}
+
+.btn:active{
+  transform:translateY(-1px) scale(.99);
 }
 
 .btn:hover::after{
@@ -344,7 +386,7 @@ nav,
 }
 
 .nav-btn{
-  background:linear-gradient(135deg,var(--aurora-violet),#5b3df0);
+  background:linear-gradient(135deg,var(--aurora-violet),var(--royal-blue-dim));
   color:#fff;
   padding:12px 26px;
   border-radius:var(--radius-full);
@@ -359,8 +401,8 @@ nav,
    5. ANNOUNCEMENT BAR
    -------------------------------------------------------------------------- */
 .announcement{
-  background:linear-gradient(90deg,rgba(124,92,255,.9),rgba(34,211,238,.85));
-  color:#080a18;
+  background:linear-gradient(90deg,rgba(124,92,255,.92),rgba(34,211,238,.86));
+  color:#060716;
   padding:11px 20px;
   text-align:center;
   font-family:var(--font-mono);
@@ -370,10 +412,10 @@ nav,
 }
 .announcement p{margin:0;}
 .announcement a{
-  color:#080a18;
+  color:#060716;
   font-weight:700;
   margin-left:10px;
-  border-bottom:1.5px solid rgba(8,10,24,.4);
+  border-bottom:1.5px solid rgba(6,7,22,.4);
 }
 
 /* --------------------------------------------------------------------------
@@ -394,6 +436,7 @@ nav{
   margin:0 auto;
   max-width:1240px;
   width:90%;
+  transition:box-shadow .4s var(--ease-out),background .4s var(--ease-out);
 }
 
 .nav-container,
@@ -500,6 +543,11 @@ nav{
   font-size:20px;
   color:var(--aurora-cyan);
   cursor:pointer;
+  transition:transform .3s var(--ease-spring),box-shadow .3s;
+}
+.menu-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:var(--glow-cyan);
 }
 
 /* --------------------------------------------------------------------------
@@ -519,7 +567,7 @@ nav{
   background:var(--glass-fill-strong);
   border:1px solid var(--glass-border-strong);
   backdrop-filter:blur(12px);
-  color:var(--aurora-amber);
+  color:var(--aurora-gold);
   padding:8px 20px;
   border-radius:var(--radius-full);
   font-family:var(--font-mono);
@@ -554,15 +602,15 @@ nav{
 }
 
 .hero-content h1{
-  font-size:clamp(36px,5.2vw,58px);
-  line-height:1.12;
+  font-size:clamp(36px,5.2vw,60px);
+  line-height:1.1;
   margin:22px 0;
   animation:floatUp .9s var(--ease-out) both;
 }
 
 .hero-content h1 span{
   display:block;
-  background:linear-gradient(120deg,var(--aurora-violet),var(--aurora-cyan) 60%,var(--aurora-magenta));
+  background:linear-gradient(120deg,var(--aurora-violet),var(--aurora-cyan) 55%,var(--aurora-gold));
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
@@ -586,7 +634,8 @@ nav{
 }
 
 .hero-image{
-  animation:floatUp 1.1s var(--ease-out) .25s both;
+  position:relative;
+  animation:floatUp 1.1s var(--ease-out) .25s both, heroFloat 7s ease-in-out 1.1s infinite;
 }
 
 .hero-image img{
@@ -594,6 +643,11 @@ nav{
   border-radius:var(--radius-lg);
   border:1px solid var(--glass-border);
   box-shadow:var(--shadow-glass-lg);
+}
+
+@keyframes heroFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-14px);}
 }
 
 @keyframes floatUp{
@@ -605,8 +659,8 @@ nav{
   50%{background-position:100% 50%;}
 }
 @keyframes pulseGlow{
-  0%,100%{box-shadow:0 0 0 0 rgba(255,176,32,.25);}
-  50%{box-shadow:0 0 0 8px rgba(255,176,32,0);}
+  0%,100%{box-shadow:0 0 0 0 rgba(242,200,121,.28);}
+  50%{box-shadow:0 0 0 8px rgba(242,200,121,0);}
 }
 
 /* --------------------------------------------------------------------------
@@ -670,9 +724,15 @@ nav{
   border-radius:var(--radius-sm);
   font-size:26px;
   color:var(--aurora-cyan);
-  background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(34,211,238,.12));
+  background:linear-gradient(135deg,rgba(124,92,255,.2),rgba(34,211,238,.13));
   border:1px solid var(--glass-border);
   margin-bottom:20px;
+  transition:transform .4s var(--ease-spring),box-shadow .4s var(--ease-out);
+}
+
+.card:hover .feature-icon{
+  transform:scale(1.08) rotate(-4deg);
+  box-shadow:var(--glow-cyan);
 }
 
 .feature-card{transition:transform .5s var(--ease-spring);}
@@ -729,7 +789,7 @@ nav{
   display:inline-flex;
   align-items:center;
   gap:9px;
-  background:linear-gradient(135deg,var(--aurora-violet),#5b3df0);
+  background:linear-gradient(135deg,var(--aurora-violet),var(--royal-blue-dim));
   color:#fff;
   padding:12px 24px;
   border-radius:var(--radius-full);
@@ -746,16 +806,17 @@ nav{
    12. CTA
    -------------------------------------------------------------------------- */
 .cta{
-  background:linear-gradient(135deg,rgba(124,92,255,.35),rgba(34,211,238,.22)),var(--glass-fill);
+  background:linear-gradient(135deg,rgba(124,92,255,.36),rgba(34,211,238,.22)),var(--glass-fill);
   padding:64px;
   border-radius:var(--radius-lg);
   text-align:center;
   color:#fff;
   border:1px solid var(--glass-border-strong);
+  overflow:hidden;
 }
 
 .cta h2{font-size:clamp(28px,3.6vw,40px);margin-bottom:18px;}
-.cta p{margin-bottom:32px;color:rgba(255,255,255,.82);}
+.cta p{margin-bottom:32px;color:rgba(255,255,255,.85);}
 
 /* --------------------------------------------------------------------------
    13. FOOTER
@@ -854,6 +915,10 @@ nav{
   margin:0 auto 20px;
   border:2px solid var(--glass-border-strong);
   padding:4px;
+  transition:box-shadow .4s var(--ease-out);
+}
+.faculty-card:hover .faculty-image img{
+  box-shadow:var(--glow-violet);
 }
 
 .faculty-card h4{color:var(--aurora-cyan);margin:10px 0;font-weight:600;}
@@ -944,11 +1009,13 @@ nav{
 
 .admission-form h2{margin-bottom:24px;}
 .admission-form{
+  position:relative;
   padding:38px;
   border-radius:var(--radius-lg);
   background:var(--glass-fill);
   border:1px solid var(--glass-border);
   backdrop-filter:blur(var(--glass-blur));
+  overflow:hidden;
 }
 .admission-form button{border:none;cursor:pointer;width:100%;}
 
@@ -1000,11 +1067,13 @@ nav{
 .contact-box h3{margin-bottom:5px;font-size:16px;}
 
 .contact-form{
+  position:relative;
   padding:34px;
   border-radius:var(--radius-lg);
   background:var(--glass-fill);
   border:1px solid var(--glass-border);
   backdrop-filter:blur(var(--glass-blur));
+  overflow:hidden;
 }
 
 .contact-form input,.contact-form textarea{
@@ -1110,8 +1179,321 @@ nav{
   transform:translateY(0);
 }
 
+/* Optional stagger helpers — add alongside .reveal for cascading
+   entrances in a grid of cards. Purely additive, opt-in. */
+.reveal-delay-1{transition-delay:.08s;}
+.reveal-delay-2{transition-delay:.16s;}
+.reveal-delay-3{transition-delay:.24s;}
+.reveal-delay-4{transition-delay:.32s;}
+.reveal-delay-5{transition-delay:.4s;}
+.reveal-delay-6{transition-delay:.48s;}
+
 /* --------------------------------------------------------------------------
-   23. RESPONSIVE
+   23. AMBIENT PARTICLES & MORPHING BLOBS (new, additive)
+   Drop <div class="particle-field"><span></span>×n</div> anywhere, or the
+   ready-made 8-span markup below, for a field of slow embers behind glass.
+   Entirely decorative; safe to omit if not present in markup.
+   -------------------------------------------------------------------------- */
+.particle-field{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+.particle-field span{
+  position:absolute;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:var(--aurora-cyan);
+  opacity:.5;
+  filter:blur(.5px);
+  animation:particleRise 14s linear infinite;
+}
+.particle-field span:nth-child(2n){background:var(--aurora-violet);animation-duration:18s;}
+.particle-field span:nth-child(3n){background:var(--aurora-gold);animation-duration:22s;width:3px;height:3px;}
+.particle-field span:nth-child(1){left:8%;animation-delay:0s;}
+.particle-field span:nth-child(2){left:18%;animation-delay:-3s;}
+.particle-field span:nth-child(3){left:29%;animation-delay:-6s;}
+.particle-field span:nth-child(4){left:41%;animation-delay:-9s;}
+.particle-field span:nth-child(5){left:54%;animation-delay:-1s;}
+.particle-field span:nth-child(6){left:66%;animation-delay:-11s;}
+.particle-field span:nth-child(7){left:78%;animation-delay:-4s;}
+.particle-field span:nth-child(8){left:90%;animation-delay:-7s;}
+
+@keyframes particleRise{
+  0%{transform:translateY(110%) translateX(0);opacity:0;}
+  10%{opacity:.6;}
+  90%{opacity:.5;}
+  100%{transform:translateY(-20%) translateX(24px);opacity:0;}
+}
+
+/* morphing background shape — a soft, slowly-shifting organic blob for
+   section backgrounds that want more presence than the global aurora mesh */
+.morph-blob{
+  position:absolute;
+  z-index:-1;
+  width:46vw;
+  height:46vw;
+  max-width:640px;
+  max-height:640px;
+  background:radial-gradient(circle at 35% 35%,rgba(124,92,255,.35),transparent 70%);
+  filter:blur(70px);
+  opacity:.5;
+  pointer-events:none;
+  animation:morphShape 16s var(--ease-out) infinite alternate;
+}
+.morph-blob.cyan{background:radial-gradient(circle at 60% 40%,rgba(34,211,238,.32),transparent 70%);}
+.morph-blob.gold{background:radial-gradient(circle at 45% 55%,rgba(242,200,121,.28),transparent 70%);}
+
+@keyframes morphShape{
+  0%{border-radius:42% 58% 63% 37% / 41% 45% 55% 59%;transform:rotate(0deg) scale(1);}
+  50%{border-radius:63% 37% 42% 58% / 55% 41% 59% 45%;transform:rotate(8deg) scale(1.08);}
+  100%{border-radius:38% 62% 55% 45% / 60% 38% 62% 40%;transform:rotate(-6deg) scale(1.02);}
+}
+
+/* --------------------------------------------------------------------------
+   24. GRADIENT TEXT & PREMIUM TEXT UTILITIES (new, additive)
+   -------------------------------------------------------------------------- */
+.text-gradient{
+  background:linear-gradient(120deg,var(--aurora-violet),var(--aurora-cyan) 55%,var(--aurora-gold));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  background-size:200% auto;
+  animation:gradientShift 6s ease-in-out infinite;
+}
+.text-gold{color:var(--aurora-gold);}
+.eyebrow{
+  display:inline-block;
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--aurora-cyan);
+  margin-bottom:12px;
+}
+
+/* --------------------------------------------------------------------------
+   25. STAT / COUNTER CARDS (new, additive — mirrors .card sizing so it
+   drops into any existing .grid without extra markup changes)
+   -------------------------------------------------------------------------- */
+.stat-card{
+  position:relative;
+  padding:34px 28px;
+  border-radius:var(--radius-md);
+  text-align:center;
+  background:var(--glass-fill);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(150%);
+  box-shadow:var(--shadow-glass);
+  transition:transform .5s var(--ease-spring),box-shadow .5s var(--ease-out);
+}
+.stat-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-glass-lg),var(--glow-gold);
+}
+.stat-number{
+  display:block;
+  font-family:var(--font-display);
+  font-size:clamp(32px,4vw,46px);
+  font-weight:700;
+  background:linear-gradient(120deg,var(--aurora-violet),var(--aurora-cyan));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  margin-bottom:8px;
+}
+.stat-label{
+  color:var(--ink-dim);
+  font-size:14px;
+  letter-spacing:.02em;
+}
+
+/* --------------------------------------------------------------------------
+   26. PRICING / PLAN CARDS (new, additive)
+   -------------------------------------------------------------------------- */
+.pricing-card{
+  position:relative;
+  padding:40px 32px;
+  border-radius:var(--radius-lg);
+  background:var(--glass-fill);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(150%);
+  box-shadow:var(--shadow-glass);
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  transition:transform .5s var(--ease-spring),box-shadow .5s var(--ease-out),border-color .4s;
+}
+.pricing-card:hover{
+  transform:translateY(-10px);
+  box-shadow:var(--shadow-glass-lg),var(--glow-violet);
+}
+.pricing-card.featured{
+  border-color:var(--glass-border-strong);
+  background:linear-gradient(160deg,rgba(124,92,255,.16),var(--glass-fill));
+  box-shadow:var(--shadow-glass-lg),var(--glow-cyan);
+}
+.pricing-badge{
+  align-self:flex-start;
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--void);
+  background:linear-gradient(120deg,var(--aurora-gold),var(--aurora-amber));
+  padding:6px 14px;
+  border-radius:var(--radius-full);
+}
+.pricing-name{font-size:19px;font-family:var(--font-display);}
+.pricing-price{
+  font-family:var(--font-display);
+  font-size:clamp(34px,4vw,44px);
+  font-weight:700;
+}
+.pricing-price small{
+  font-family:var(--font-body);
+  font-size:14px;
+  font-weight:500;
+  color:var(--ink-faint);
+}
+.pricing-features{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin:6px 0 8px;
+}
+.pricing-features li{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--ink-dim);
+  font-size:14.5px;
+}
+
+/* --------------------------------------------------------------------------
+   27. TESTIMONIALS (new, additive)
+   -------------------------------------------------------------------------- */
+.testimonial-card{
+  padding:36px 32px;
+  border-radius:var(--radius-md);
+  background:var(--glass-fill);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(150%);
+  box-shadow:var(--shadow-glass);
+  transition:transform .5s var(--ease-spring);
+}
+.testimonial-card:hover{transform:translateY(-8px);}
+.testimonial-quote-icon{
+  font-family:var(--font-display);
+  font-size:42px;
+  line-height:1;
+  color:var(--aurora-violet-2);
+  opacity:.7;
+  margin-bottom:10px;
+  display:block;
+}
+.testimonial-text{
+  color:var(--ink-dim);
+  line-height:1.8;
+  font-size:15.5px;
+  margin-bottom:22px;
+}
+.testimonial-author{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.testimonial-author img{
+  width:48px;height:48px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--glass-border-strong);
+}
+.testimonial-author h4{font-size:15px;margin-bottom:2px;}
+.testimonial-author span{color:var(--ink-faint);font-size:13px;}
+
+/* --------------------------------------------------------------------------
+   28. FAQ ACCORDION — pure CSS via <details>/<summary> (new, additive,
+   needs no JS to expand/collapse)
+   -------------------------------------------------------------------------- */
+.faq-item{
+  border-radius:var(--radius-sm);
+  background:var(--glass-fill);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(var(--glass-blur));
+  margin-bottom:14px;
+  overflow:hidden;
+  transition:border-color .3s,box-shadow .3s;
+}
+.faq-item[open]{
+  border-color:var(--glass-border-strong);
+  box-shadow:var(--glow-violet);
+}
+.faq-item summary{
+  list-style:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:20px 24px;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:16px;
+  color:var(--ink);
+}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{
+  content:"+";
+  flex-shrink:0;
+  width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  background:var(--glass-fill-strong);
+  color:var(--aurora-cyan);
+  font-size:18px;
+  transition:transform .35s var(--ease-spring);
+}
+.faq-item[open] summary::after{transform:rotate(135deg);}
+.faq-answer{
+  padding:0 24px 22px;
+  color:var(--ink-dim);
+  line-height:1.8;
+  font-size:14.5px;
+}
+
+/* --------------------------------------------------------------------------
+   29. MAGNETIC-STYLE HOVER & SUBTLE TILT (CSS-only approximation)
+   True per-pixel mouse-tracked magnetism needs a few lines of JS (available
+   on request); this gives a lightweight, dependency-free approximation
+   that still reads as "premium" on hover/focus alone.
+   -------------------------------------------------------------------------- */
+.magnetic{
+  transition:transform .45s var(--ease-spring),box-shadow .45s var(--ease-out);
+}
+.magnetic:hover{
+  transform:translateY(-4px) scale(1.03);
+}
+
+.tilt-card{
+  transition:transform .5s var(--ease-spring),box-shadow .5s var(--ease-out);
+  transform-style:preserve-3d;
+}
+.tilt-card:hover{
+  transform:perspective(900px) rotateX(3deg) rotateY(-3deg) translateY(-6px);
+}
+
+/* --------------------------------------------------------------------------
+   30. RESPONSIVE
    -------------------------------------------------------------------------- */
 @media(max-width:1024px){
   .company-grid{grid-template-columns:repeat(4,1fr);}
@@ -1166,10 +1548,12 @@ nav{
   .cta h2{font-size:26px;}
   .admission-form,.contact-form{padding:26px;}
   .policy-card{padding:26px;}
+  .pricing-card{padding:30px 24px;}
+  .testimonial-card{padding:28px 24px;}
 }
 
 /* --------------------------------------------------------------------------
-   24. ACCESSIBILITY — reduced motion
+   31. ACCESSIBILITY — reduced motion
    -------------------------------------------------------------------------- */
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
